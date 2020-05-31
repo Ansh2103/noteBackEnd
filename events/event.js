@@ -22,6 +22,7 @@ var sendEmail = function (subject, user, text) {
                 subject: subject,
                 text: text,
             }
+            console.log(user.email)
             await transporter.sendMail(mailOptions, async function (error, info) {
                 if (error) {
                     return await resolve(error.message)

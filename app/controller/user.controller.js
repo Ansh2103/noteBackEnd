@@ -14,3 +14,7 @@ exports.createUser = function(req,res){
             userService.signUp(req,res)
         }
     }
+
+    exports.confirmAccount = function(req,res){
+        userService.confirmAccount(req,res);
+    }

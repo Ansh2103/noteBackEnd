@@ -6,6 +6,7 @@ dotenv.config();
 
 const port = process.env.PORT
 const app = express();
+
 const database = require('./config/config.database')
 var userRoute= require('./app/routes/user.routes')
 // parse requests of content-type - application/x-www-form-urlencoded
