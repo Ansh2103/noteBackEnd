@@ -5,37 +5,44 @@ var dotenv = require('dotenv')
 dotenv.config();
 
 /// Create event handler
+
 var sendEmail = function (subject, user, text) {
-    return new Promise(async function(resolve, reject){
-        try {
-            var transporter = await nodemailer.createTransport({
-                service:'gmail',
-               // secure: true,
-                auth: {
-                    user: 'process.env.EMAIL',
-                    pass: 'process.env.PASSWORD'
-                }
-            });
-            var mailOptions =  {
-                from: 'process.env.EMAIL',
-                to: user.email,
-                subject: subject,
-                text: text,
+
+    try {
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            secure: false,
+            port: 25,
+
+            // secure: true,
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            },
+            tls: {
+                rejectUnauthorized: false
             }
-            console.log(user.email)
-            await transporter.sendMail(mailOptions, async function (error, info) {
-                if (error) {
-                    return await resolve(error.message)
-                }
-                else {
-                    return resolve('Verfication mail has been sent to ' + user.email + '.');
-                }
-            });
-        } catch (error) {
-            return reject(error)
+        });
+
+        var mailOptions = {
+            from: process.env.EMAIL,
+            to: user.email,
+            subject: subject,
+            text: text,
         }
-    })
-       
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                return (error.message)
+            }
+            else {
+                return ('Verfication mail has been sent to ' + user.email + '.');
+            }
+        });
+    } catch (error) {
+        return (error)
+    }
+
+
 }
 
 /// Assign the event handler to an event
